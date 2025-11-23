@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+tweet-form
+{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h1 class="text-white text-center fw-bold mb-4">
+        {% if form.instance.pk %}
+        Edit Tweet
+        {% else %}
+        Add New Tweet
+        {% endif %}
+    </h1>
+
+    <div class="card bg-dark text-white shadow-lg mx-auto" style="max-width: 600px; border-radius: 15px;">
+        <div class="card-body p-4">
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Text Field -->
+                <div class="mb-3">
+                    {{ form.text.label_tag }}
+                    {{ form.text }}
+                </div>
+
+                <!-- Show Current Photo (editable mode only) -->
+                {% if form.instance.pk and form.instance.photo %}
+                <div class="mb-3">
+                    <label class="fw-bold">Current Photo</label><br>
+                    <img src="{{ form.instance.photo.url }}" width="150" class="rounded mb-2">
+
+                    <!-- HIDE default Django "clear" checkbox -->
+                    <style>
+                        .clearable-file-input input[type="checkbox"] {
+                            display: none !important;
+                        }
+                        .clearable-file-input label {
+                            display: none !important;
+                        }
+                    </style>
+
+                    <div class="clearable-file-input">
+                        {{ form.photo }}
+                    </div>
+                </div>
+
+                {% else %}
+                <!-- Upload field for new tweet -->
+                <div class="m-3">
+                    {{ form.photo.label_tag }}
+                    {{ form.photo }}
+                </div>
+                {% endif %}
+
+                <!-- Visibility -->
+                <div class="mb-3">
+                    <label class="fw-bold">Visibility</label><br>
+
+                    <label class="me-3">
+                        <input type="radio" name="visibility" value="public"
+                               {% if form.instance.visibility == "public" %}checked{% endif %}> Public
+                    </label>
+
+                    <label>
+                        <input type="radio" name="visibility" value="private"
+                               {% if form.instance.visibility == "private" %}checked{% endif %}> Private
+                    </label>
+                </div>
+
+                <button class="btn btn-primary w-100 py-2 rounded-pill" type="submit">
+                    {% if form.instance.pk %}Save Changes{% else %}Submit{% endif %}
+                </button>
+
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="{% url 'tweet_list' %}" class="text-info text-decoration-none fw-bold">
+                    ← Back to Tweet List
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    form input,
+    form textarea,
+    form select {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        padding: 8px !important;
+    }
+
+    form input[type="radio"] {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    form input::placeholder,
+    textarea::placeholder {
+        color: #cccccc !important;
+    }
+</style>
+
+{% endblock content %}

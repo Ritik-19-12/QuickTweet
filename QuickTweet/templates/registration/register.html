@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .dark-container {
+        background-color: #121212;
+        color: #e0e0e0;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: 40px auto;
+        box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    }
+
+    .dark-container h2 {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .dark-container input {
+        background-color: #1e1e1e;
+        color: white;
+        border: 1px solid #333;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .dark-container label {
+        margin-top: 10px;
+        display: block;
+        font-weight: 500;
+    }
+
+    .dark-btn {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .dark-btn:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="dark-container">
+    <h2>Register</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="dark-btn" type="submit">Register</button>
+    </form>
+</div>
+
+{% endblock %}
